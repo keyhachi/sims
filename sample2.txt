@@ -1,0 +1,27 @@
+main:
+  addi r4, r4, $16
+	addi r5, r5, $1
+	addi r9, r9, $1
+fib:
+	addi r6, r6, $4
+	bne r7, r10, add_to_r8
+add_to_r9:
+	add r9, r8, r9
+  sw r9, r6, $0
+; @0:-1;0:-1 @0:-1;0:-1
+	ori r7, r7, $1
+add_to_r8:
+	add r8, r8, r9
+  sw r8, r6, $0
+	andi r7, r7, $0
+fib_control:
+	addi r5, r5, $1
+	bne r4, r5, fib
+fib_end:
+	bne r7, r10, end_at_r9
+end_at_r8:
+	add r4, r10, r8
+	ret
+end_at_r9:
+	add r4, r10, r9
+	ret

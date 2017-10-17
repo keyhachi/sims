@@ -1,0 +1,6 @@
+main:
+add r1,r3,r4
+subi r1, r2, $3
+sw r1,r3,$4
+beq r10, r11, main
+ret
