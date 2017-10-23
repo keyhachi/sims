@@ -1,0 +1,91 @@
+@a_1fib:
+	mflr r7
+	push r7
+	push r2
+	mov r2,r1
+	subi r1,r1,$32
+	li r5,$0
+	sw r5,r2,$-28
+; ../fib.ml@1:23;1:24
+	lw r5,r2,$8
+	lw r6,r2,$-28
+	bne r5,r6,@label_1
+	li r5,$1
+	sw r5,r2,$-32
+; ../fib.ml@1:16;1:81
+	j @label_2
+@label_1:
+	li r5,$1
+	sw r5,r2,$-24
+; ../fib.ml@1:45;1:46
+	lw r5,r2,$8
+	lw r6,r2,$-24
+	bne r5,r6,@label_3
+	lw r5,r2,$-24
+	sw r5,r2,$-32
+; ../fib.ml@1:16;1:81 ::<= ../fib.ml@1:45;1:46
+	j @label_4
+@label_3:
+	lw r6,r2,$-24
+	lw r5,r2,$8
+	sub r5,r5,r6
+	sw r5,r2,$-20
+; ../fib.ml@1:64;1:67 ::= Osub ../fib.ml@1:64;1:65 ../fib.ml@1:66;1:67
+	push r4
+	lw r5,r2,$-20
+	push r5
+	jal @a_1fib
+	lw r5,r2,$-8
+	addi r1,r1,$4
+	pop r4
+; ../fib.ml@1:59;1:68 ../fib.ml@1:59;1:62
+	li r5,$2
+	sw r5,r2,$-16
+; ../fib.ml@1:78;1:79
+	lw r6,r2,$-16
+	lw r5,r2,$8
+	sub r5,r5,r6
+	sw r5,r2,$-12
+; ../fib.ml@1:76;1:79 ::= Osub ../fib.ml@1:76;1:77 ../fib.ml@1:78;1:79
+	push r4
+	lw r5,r2,$-12
+	push r5
+	jal @a_1fib
+	lw r5,r2,$-4
+	addi r1,r1,$4
+	pop r4
+; ../fib.ml@1:71;1:80 ../fib.ml@1:71;1:74
+	lw r6,r2,$-4
+	lw r5,r2,$-8
+	add r5,r5,r6
+	sw r5,r2,$-32
+; ../fib.ml@1:16;1:81 ::= Oadd ../fib.ml@1:59;1:68 ../fib.ml@1:71;1:80
+@label_4:
+@label_2:
+	lw r5,r2,$-32
+	addi r1,r1,$32
+	pop r2
+	pop r6
+	jr r6
+main:
+	mflr r7
+	push r7
+	push r2
+	mov r2,r1
+	subi r1,r1,$8
+	li r5,$20
+	sw r5,r2,$-4
+; ../fib.ml@3:9;3:11
+	push r4
+	lw r5,r2,$-4
+	push r5
+	jal @a_1fib
+	lw r5,r2,$-8
+	addi r1,r1,$4
+	pop r4
+; @0:-1;0:-1 ../fib.ml@3:5;3:8
+	li r5,$0
+	addi r1,r1,$8
+	pop r2
+	pop r6
+	jr r6

@@ -38,9 +38,18 @@ int insnum = 0;
 
 
 int label_to_hash(char *label) {
+  char* label2;
+  strcpy(label2, label);
+  int i;
   int hashval = 0;
-  while (*label != '\0')
-    hashval += *label++;
+  for (i = 0; i < 100; i++) {
+    if (label2[i] == ':') {
+      label2[i] = '\0';
+      break;
+    }
+  }
+  while (*label2 != '\0')
+    hashval += *label2++;
   return hashval % 1000;
 }
 
@@ -302,13 +311,10 @@ else if (strcmp(a0p, "li") == 0) {
         return 0;
 }
 else if (strcmp(a0p, "jal") == 0) {
-  if (a1p[0] == '$') {
-    b0[pc] = 27;
-    b1[pc] = atoi(&a1p[pc]);
-    return 0;
-  }
+  if (a1p[0] != '$')
+    return -1;
   else {
-    b0[pc] = 30;
+    b0[pc] = 27;
     b1[pc] = atoi(&a1p[pc]);
     return 0;
   }
@@ -337,7 +343,6 @@ else if (strcmp(a0p, "mflr") == 0) {
 }
   else {
     labels[label_to_hash(a0p)] = pc;
-    printf("%s\n%d\n%d\n", a0p,label_to_hash(a0p), labels[label_to_hash(a0p)] );
     b0[pc] = 22;
     return 0;
   }
@@ -516,6 +521,7 @@ int main(int argc, char* argv[]) {
         printf("b1[pc] = %x b2[pc] = %x b3[pc] = %x\n", b1[pc], b2[pc], b3[pc]);
         printf("ins = %d  pc = %d\n", b0[pc], pc);
         printf("-----------------------------------------------------------------\n");
+        fflush(stdout);
         switch (b0[pc]) {
 
         case 1:
@@ -593,7 +599,7 @@ int main(int argc, char* argv[]) {
         break;
 
         case 15:
-        printf("%d\n", *(int*)(gr[b2[pc]] + b3[pc]));
+        printf("%p\n",(int*)(gr[b2[pc]] + b3[pc]));
         gr[b1[pc]] = *(int*)(gr[b2[pc]] + b3[pc]);
         pc += 1;
         break;
@@ -604,27 +610,23 @@ int main(int argc, char* argv[]) {
         break;
 
         case 17:
-        // printf("%s\n%d\n", a1[pc], label_to_hash(a1[pc]));
-        pc = labels[label_to_hash(a1[pc]) - 13];
+        pc = labels[label_to_hash(a1[pc])];
         break;
 
         case 18:
-        // printf("%d\n", gr[b1[pc]]);
         pc = gr[b1[pc]];
         break;
 
         case 19:
         if (gr[b1[pc]] == gr[b2[pc]])
-            pc = labels[label_to_hash(a3[pc]) - 13];
+            pc = labels[label_to_hash(a3[pc])];
         else
             pc += 1;
         break;
 
         case 20:
-        if (gr[b1[pc]] != gr[b2[pc]]) {
-          // printf("%s\n%d\n", a3[pc], label_to_hash(a3[pc]));
-            pc = labels[label_to_hash(a3[pc]) - 13];
-          }
+        if (gr[b1[pc]] != gr[b2[pc]])
+            pc = labels[label_to_hash(a3[pc])];
         else
             pc += 1;
         break;
@@ -655,7 +657,7 @@ int main(int argc, char* argv[]) {
         break;
 
         case 26:
-        gr[b1[pc]] = labels[label_to_hash(a2[pc]) - 13];
+        gr[b1[pc]] = labels[label_to_hash(a2[pc])];
         pc += 1;
         break;
 
@@ -672,11 +674,6 @@ int main(int argc, char* argv[]) {
         case 29:
         gr[b1[pc]] = lr;
         pc += 1;
-        break;
-
-        case 30:
-        lr = pc + 1;
-        pc = labels[label_to_hash(a2[pc]) - 13];
         break;
 
 
