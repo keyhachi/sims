@@ -640,12 +640,12 @@ int main(int argc, char* argv[]) {
         //実行
         printf("r1 = %x r2 = %x r3 = %x r4 = %x\nr5 = %x r6 = %x r7 = %x r8 = %x r31 = %x\n", gr[1], gr[2], gr[3], gr[4], gr[5], gr[6], gr[7], gr[8], gr[31]);
         printf("gr = %p heap = %p stack = %p\n", gr, heap, stack);
-        for (i = 0; i < 10; i++)
-          printf("gr[1][%d] = %x\n",i,((int*)gr[1])[i]);
+        // for (i = 0; i < 10; i++)
+        //   printf("gr[1][%d] = %x\n",i,((int*)gr[1])[i]);
         printf("b1[pc] = %d b2[pc] = %d b3[pc] = %d\n", b1[pc], b2[pc], b3[pc]);
         printf("ins = %d  pc = %d\n", b0[pc], pc);
         printf("-----------------------------------------------------------------\n");
-        fflush(stdout);
+        // fflush(stdout);
         switch (b0[pc]) {
 
         case 1:
@@ -892,10 +892,10 @@ int main(int argc, char* argv[]) {
         break;
 
     }
-        if (pc == -1) {
-           return 0;
-           break;
-         }
+        // if (pc == -1) {
+        //   return 0;
+        //   break;
+        // }
         gr[0] = 0;
         k += 1;
         // if (k > 1e8) {

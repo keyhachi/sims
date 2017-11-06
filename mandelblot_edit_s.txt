@@ -1,0 +1,419 @@
+print_char:
+	hlt
+
+print_int:
+	hlt
+	
+fless:
+	hlt
+	
+float_of_int:
+	lw r5,r2,$0
+	itof f0,r5
+	fst f0,r2,$-4
+	lw r5,r2,$-4
+	ret
+
+@a_119@lift_1@a_1dbl:
+	mflr r7
+	push r7
+	push r2
+	mov r2,r1
+	subi r1,r1,$4
+	fld r5,r2,$8
+	fld r6,r2,$8
+	fadd r5,r5,r6
+	fst r5,r2,$-4
+; ../mandelbrot_edit.ml@1:28;1:34 ::= Ofadd ../mandelbrot_edit.ml@1:28;1:29 ../mandelbrot_edit.ml@1:33;1:34
+	lw r5,r2,$-4
+	addi r1,r1,$4
+	pop r2
+	pop r6
+	jr r6
+@a_155@a_29iloop:
+	mflr r7
+	push r7
+	push r2
+	mov r2,r1
+	subi r1,r1,$76
+	li r5,$0
+	sw r5,r2,$-72
+; ../mandelbrot_edit.ml@12:25;12:26
+	lw r5,r2,$8
+	lw r6,r2,$-72
+	bne r5,r6,@label_5
+	li r5,$1
+	sw r5,r2,$-68
+; ../mandelbrot_edit.ml@12:42;12:43
+	push r4
+	lw r5,r2,$-68
+	push r5
+	jal print_int
+	sw r5,r2,$-76
+	addi r1,r1,$4
+	pop r4
+; ../mandelbrot_edit.ml@12:18;20:51 ../mandelbrot_edit.ml@12:32;12:41
+	j @label_6
+@label_5:
+	fld r5,r2,$20
+	fld r6,r2,$24
+	fsub r5,r5,r6
+	fst r5,r2,$-64
+; ../mandelbrot_edit.ml@13:27;13:37 ::= Ofsub ../mandelbrot_edit.ml@13:27;13:30 ../mandelbrot_edit.ml@13:34;13:37
+	fld r5,r2,$-64
+	fld r6,r2,$28
+	fadd r5,r5,r6
+	fst r5,r2,$-16
+; ../mandelbrot_edit.ml@13:27;13:43 ::= Ofadd ../mandelbrot_edit.ml@13:27;13:37 ../mandelbrot_edit.ml@13:41;13:43
+	push r4
+	lw r5,r2,$12
+	push r5
+	jal @a_119@lift_1@a_1dbl
+	sw r5,r2,$-60
+	addi r1,r1,$4
+	pop r4
+; ../mandelbrot_edit.ml@14:27;14:33 ../mandelbrot_edit.ml@1:28;1:34
+	fld r5,r2,$-60
+	fld r6,r2,$16
+	fmul r5,r5,r6
+	fst r5,r2,$-56
+; ../mandelbrot_edit.ml@14:27;14:39 ::= Ofmul ../mandelbrot_edit.ml@14:27;14:33 ../mandelbrot_edit.ml@14:37;14:39
+	fld r5,r2,$-56
+	fld r6,r2,$32
+	fadd r5,r5,r6
+	fst r5,r2,$-12
+; ../mandelbrot_edit.ml@14:27;14:45 ::= Ofadd ../mandelbrot_edit.ml@14:27;14:39 ../mandelbrot_edit.ml@14:43;14:45
+	fld r5,r2,$-16
+	fld r6,r2,$-16
+	fmul r5,r5,r6
+	fst r5,r2,$-8
+; ../mandelbrot_edit.ml@17:28;17:36 ::= Ofmul ../mandelbrot_edit.ml@17:28;17:30 ../mandelbrot_edit.ml@17:34;17:36
+	fld r5,r2,$-12
+	fld r6,r2,$-12
+	fmul r5,r5,r6
+	fst r5,r2,$-4
+; ../mandelbrot_edit.ml@18:28;18:36 ::= Ofmul ../mandelbrot_edit.ml@18:28;18:30 ../mandelbrot_edit.ml@18:34;18:36
+	fld r5,r2,$-8
+	fld r6,r2,$-4
+	fadd r5,r5,r6
+	fst r5,r2,$-44
+; ../mandelbrot_edit.ml@19:28;19:38 ::= Ofadd ../mandelbrot_edit.ml@19:28;19:31 ../mandelbrot_edit.ml@19:35;19:38
+	fmovi f5,2.000000
+	fst f5,r2,$-52
+	fmovi f5,2.000000
+	fst f5,r2,$-48
+	fld r5,r2,$-52
+	fld r6,r2,$-48
+	fmul r5,r5,r6
+	fst r5,r2,$-40
+; ../mandelbrot_edit.ml@19:41;19:51 ::= Ofmul ../mandelbrot_edit.ml@19:41;19:44 ../mandelbrot_edit.ml@19:48;19:51
+	push r4
+	lw r5,r2,$-40
+	push r5
+	lw r5,r2,$-44
+	push r5
+	jal fless
+	sw r5,r2,$-36
+	addi r1,r1,$8
+	pop r4
+; ../mandelbrot_edit.ml@19:21;19:52 ../mandelbrot_edit.ml@19:21;19:26
+	li r5,$1
+	sw r5,r2,$-32
+; ../mandelbrot_edit.ml@19:21;19:52
+	lw r5,r2,$-36
+	lw r6,r2,$-32
+	bne r5,r6,@label_7
+	li r5,$0
+	sw r5,r2,$-28
+; ../mandelbrot_edit.ml@19:68;19:69
+	push r4
+	lw r5,r2,$-28
+	push r5
+	jal print_int
+	sw r5,r2,$-76
+	addi r1,r1,$4
+	pop r4
+; ../mandelbrot_edit.ml@12:18;20:51 ../mandelbrot_edit.ml@19:58;19:67
+	j @label_8
+@label_7:
+	li r5,$1
+	sw r5,r2,$-24
+; ../mandelbrot_edit.ml@20:29;20:30
+	lw r6,r2,$-24
+	lw r5,r2,$8
+	sub r5,r5,r6
+	sw r5,r2,$-20
+; ../mandelbrot_edit.ml@20:25;20:30 ::= Osub ../mandelbrot_edit.ml@20:25;20:26 ../mandelbrot_edit.ml@20:29;20:30
+	push r4
+	lw r5,r2,$32
+	push r5
+	lw r5,r2,$28
+	push r5
+	lw r5,r2,$-4
+	push r5
+	lw r5,r2,$-8
+	push r5
+	lw r5,r2,$-12
+	push r5
+	lw r5,r2,$-16
+	push r5
+	lw r5,r2,$-20
+	push r5
+	jal @a_155@a_29iloop
+	sw r5,r2,$-76
+	addi r1,r1,$28
+	pop r4
+; ../mandelbrot_edit.ml@12:18;20:51 ../mandelbrot_edit.ml@20:18;20:23
+@label_8:
+@label_6:
+	lw r5,r2,$-76
+	addi r1,r1,$76
+	pop r2
+	pop r6
+	jr r6
+@a_129@a_9xloop:
+	mflr r7
+	push r7
+	push r2
+	mov r2,r1
+	subi r1,r1,$100
+	li r5,$80
+	sw r5,r2,$-96
+; ../mandelbrot_edit.ml@8:24;8:26
+	lw r6,r2,$-96
+	lw r5,r2,$8
+	slt r5,r6,r5
+	li r6,1
+	xor r5,r5,r6
+	sw r5,r2,$-92
+; ../mandelbrot_edit.ml@8:19;8:26 ::= Ogeq ../mandelbrot_edit.ml@8:19;8:20 ../mandelbrot_edit.ml@8:24;8:26
+	li r5,$1
+	sw r5,r2,$-88
+; ../mandelbrot_edit.ml@8:19;8:26
+	lw r5,r2,$-92
+	lw r6,r2,$-88
+	bne r5,r6,@label_3
+	sw r3,r2,$-100
+	addi r5,r5,$0
+; ../mandelbrot_edit.ml@8:16;40:31
+	j @label_4
+@label_3:
+	push r4
+	lw r5,r2,$8
+	push r5
+	jal float_of_int
+	sw r5,r2,$-84
+	addi r1,r1,$4
+	pop r4
+; ../mandelbrot_edit.ml@9:30;9:44 ../mandelbrot_edit.ml@9:30;9:42
+	push r4
+	lw r5,r2,$-84
+	push r5
+	jal @a_119@lift_1@a_1dbl
+	sw r5,r2,$-80
+	addi r1,r1,$4
+	pop r4
+; ../mandelbrot_edit.ml@9:25;9:45 ../mandelbrot_edit.ml@1:28;1:34
+	fmovi f5,80.000000
+	fst f5,r2,$-76
+	fld r5,r2,$-80
+	fld r6,r2,$-76
+	fdiv r5,r5,r6
+	fst r5,r2,$-72
+; ../mandelbrot_edit.ml@9:25;9:53 ::= Ofdiv ../mandelbrot_edit.ml@9:25;9:45 ../mandelbrot_edit.ml@9:49;9:53
+	fmovi f5,1.500000
+	fst f5,r2,$-68
+	fld r5,r2,$-72
+	fld r6,r2,$-68
+	fsub r5,r5,r6
+	fst r5,r2,$-24
+; ../mandelbrot_edit.ml@9:25;9:60 ::= Ofsub ../mandelbrot_edit.ml@9:25;9:53 ../mandelbrot_edit.ml@9:57;9:60
+	push r4
+	lw r5,r2,$12
+	push r5
+	jal float_of_int
+	sw r5,r2,$-64
+	addi r1,r1,$4
+	pop r4
+; ../mandelbrot_edit.ml@10:30;10:44 ../mandelbrot_edit.ml@10:30;10:42
+	push r4
+	lw r5,r2,$-64
+	push r5
+	jal @a_119@lift_1@a_1dbl
+	sw r5,r2,$-60
+	addi r1,r1,$4
+	pop r4
+; ../mandelbrot_edit.ml@10:25;10:45 ../mandelbrot_edit.ml@1:28;1:34
+	fmovi f5,40.000000
+	fst f5,r2,$-56
+	fld r5,r2,$-60
+	fld r6,r2,$-56
+	fdiv r5,r5,r6
+	fst r5,r2,$-52
+; ../mandelbrot_edit.ml@10:25;10:53 ::= Ofdiv ../mandelbrot_edit.ml@10:25;10:45 ../mandelbrot_edit.ml@10:49;10:53
+	fmovi f5,1.000000
+	fst f5,r2,$-48
+	fld r5,r2,$-52
+	fld r6,r2,$-48
+	fsub r5,r5,r6
+	fst r5,r2,$-20
+; ../mandelbrot_edit.ml@10:25;10:60 ::= Ofsub ../mandelbrot_edit.ml@10:25;10:53 ../mandelbrot_edit.ml@10:57;10:60
+	li r5,$1000
+	sw r5,r2,$-44
+; ../mandelbrot_edit.ml@21:22;21:26
+	fmovi f5,0.000000
+	fst f5,r2,$-40
+	fmovi f5,0.000000
+	fst f5,r2,$-36
+	fmovi f5,0.000000
+	fst f5,r2,$-32
+	fmovi f5,0.000000
+	fst f5,r2,$-28
+	push r4
+	lw r5,r2,$-20
+	push r5
+	lw r5,r2,$-24
+	push r5
+	lw r5,r2,$-28
+	push r5
+	lw r5,r2,$-32
+	push r5
+	lw r5,r2,$-36
+	push r5
+	lw r5,r2,$-40
+	push r5
+	lw r5,r2,$-44
+	push r5
+	jal @a_155@a_29iloop
+	sw r5,r2,$-8
+	addi r1,r1,$28
+	pop r4
+; ../mandelbrot_edit.ml@21:16;21:48 ../mandelbrot_edit.ml@21:16;21:21
+	li r5,$1
+	sw r5,r2,$-16
+; ../mandelbrot_edit.ml@40:27;40:28
+	lw r6,r2,$-16
+	lw r5,r2,$8
+	add r5,r5,r6
+	sw r5,r2,$-12
+; ../mandelbrot_edit.ml@40:23;40:28 ::= Oadd ../mandelbrot_edit.ml@40:23;40:24 ../mandelbrot_edit.ml@40:27;40:28
+	push r4
+	lw r5,r2,$12
+	push r5
+	lw r5,r2,$-12
+	push r5
+	jal @a_129@a_9xloop
+	sw r5,r2,$-4
+	addi r1,r1,$8
+	pop r4
+; ../mandelbrot_edit.ml@40:16;40:31 ../mandelbrot_edit.ml@40:16;40:21
+	lw r5,r2,$-4
+	sw r5,r2,$-100
+; ../mandelbrot_edit.ml@8:16;40:31 ::<= ../mandelbrot_edit.ml@40:16;40:31
+@label_4:
+	lw r5,r2,$-100
+	addi r1,r1,$100
+	pop r2
+	pop r6
+	jr r6
+@a_123@a_3yloop:
+	mflr r7
+	push r7
+	push r2
+	mov r2,r1
+	subi r1,r1,$48
+	li r5,$40
+	sw r5,r2,$-44
+; ../mandelbrot_edit.ml@5:22;5:24
+	lw r6,r2,$-44
+	lw r5,r2,$8
+	slt r5,r6,r5
+	li r6,1
+	xor r5,r5,r6
+	sw r5,r2,$-40
+; ../mandelbrot_edit.ml@5:17;5:24 ::= Ogeq ../mandelbrot_edit.ml@5:17;5:18 ../mandelbrot_edit.ml@5:22;5:24
+	li r5,$1
+	sw r5,r2,$-36
+; ../mandelbrot_edit.ml@5:17;5:24
+	lw r5,r2,$-40
+	lw r6,r2,$-36
+	bne r5,r6,@label_1
+	sw r3,r2,$-48
+	addi r5,r5,$0
+; ../mandelbrot_edit.ml@5:14;43:27
+	j @label_2
+@label_1:
+	li r5,$0
+	sw r5,r2,$-32
+; ../mandelbrot_edit.ml@41:20;41:21
+	push r4
+	lw r5,r2,$8
+	push r5
+	lw r5,r2,$-32
+	push r5
+	jal @a_129@a_9xloop
+	sw r5,r2,$-8
+	addi r1,r1,$8
+	pop r4
+; ../mandelbrot_edit.ml@41:14;41:23 ../mandelbrot_edit.ml@41:14;41:19
+	li r5,$10
+	sw r5,r2,$-28
+; ../mandelbrot_edit.ml@41:36;41:38
+	push r4
+	lw r5,r2,$-28
+	push r5
+	jal print_char
+	sw r5,r2,$-16
+	addi r1,r1,$4
+	pop r4
+; ../mandelbrot_edit.ml@41:25;41:38 ../mandelbrot_edit.ml@41:25;41:35
+	li r5,$1
+	sw r5,r2,$-24
+; ../mandelbrot_edit.ml@43:25;43:26
+	lw r6,r2,$-24
+	lw r5,r2,$8
+	add r5,r5,r6
+	sw r5,r2,$-20
+; ../mandelbrot_edit.ml@43:21;43:26 ::= Oadd ../mandelbrot_edit.ml@43:21;43:22 ../mandelbrot_edit.ml@43:25;43:26
+	push r4
+	lw r5,r2,$-20
+	push r5
+	jal @a_123@a_3yloop
+	sw r5,r2,$-12
+	addi r1,r1,$4
+	pop r4
+; ../mandelbrot_edit.ml@43:14;43:27 ../mandelbrot_edit.ml@43:14;43:19
+	lw r5,r2,$-12
+	sw r5,r2,$-4
+; ../mandelbrot_edit.ml@41:25;43:27 ::<= ../mandelbrot_edit.ml@43:14;43:27
+	lw r5,r2,$-4
+	sw r5,r2,$-48
+; ../mandelbrot_edit.ml@5:14;43:27 ::<= ../mandelbrot_edit.ml@41:25;43:27
+@label_2:
+	lw r5,r2,$-48
+	addi r1,r1,$48
+	pop r2
+	pop r6
+	jr r6
+main:
+	mflr r7
+	push r7
+	push r2
+	mov r2,r1
+	subi r1,r1,$8
+	li r5,$0
+	sw r5,r2,$-4
+; ../mandelbrot_edit.ml@44:18;44:19
+	push r4
+	lw r5,r2,$-4
+	push r5
+	jal @a_123@a_3yloop
+	sw r5,r2,$-8
+	addi r1,r1,$4
+	pop r4
+; @0:-1;0:-1 ../mandelbrot_edit.ml@44:12;44:17
+	li r5,$0
+	addi r1,r1,$8
+	pop r2
+	pop r6
+	jr r6
