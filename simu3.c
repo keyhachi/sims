@@ -17,7 +17,7 @@ int labels[100000];
 int i = 0;
 int j = 0;
 int k = 0;
-char allins[100000][256];
+char allins[100000][1000];
 char a0[100000][256];
 char a1[100000][256];
 char a2[100000][256];
@@ -465,7 +465,8 @@ else if (strcmp(a0p, "slti") == 0) {
 }
   else {
     labels[label_to_hash(a0p)] = pc;
-    // printf("%s\n%d\n%d\n%d\n", a0p,label_to_hash(a0p), labels[label_to_hash(a0p)], pc );
+    printf("%s\n%d\n%d\n%d\n", a0p,label_to_hash(a0p), labels[label_to_hash(a0p)], pc);
+    fflush(stdout);
     // printf("%d %d %s\n", strcmp(a0p, "ret"), pc, a0p);
     b0[pc] = 22;
     return 0;
@@ -480,9 +481,9 @@ int main(int argc, char* argv[]) {
     FILE *fd = fopen(argv[1], "r");
     // stack = mmap(NULL, 0x10000, PROT_READ | PROT_WRITE, MAP_STACK, 0, 0);
 
-    for (i = 0; i < 16; i++)
+    for (i = 0; i < 32; i++)
         gr[i] = 0;
-    for (i = 0; i < 16; i++)
+    for (i = 0; i < 32; i++)
         fr[i] = 0.0;
 
 
@@ -498,11 +499,11 @@ int main(int argc, char* argv[]) {
     // char **a = (char**)malloc(1000);
 
     for (i = 0; i < 100000; i++) {
-        if (fgets(allins[i], 300, fd) == NULL)
+        if (fgets(allins[i], 200, fd) == NULL)
             break;
         else
           insnum += 1;
-            // printf("%s", allallins[pc][i]);
+            // printf("%s", allins[i]);
     }
 
     gettimeofday(&tv, NULL);
@@ -630,7 +631,7 @@ int main(int argc, char* argv[]) {
     }
         pc = labels[label_to_hash(start)];
         // printf("%s", allins[pc]);
-        // printf("%d\n", pc);
+        printf("%d\n", pc);
         // printf("%s\n", a0[pc]);
         // printf("%s\n", a1[pc]);
         // printf("%s\n", a2[pc]);
@@ -638,14 +639,14 @@ int main(int argc, char* argv[]) {
 
     while(1) {
         //実行
-        printf("r1 = %x r2 = %x r3 = %x r4 = %x\nr5 = %x r6 = %x r7 = %x r8 = %x r31 = %x\n", gr[1], gr[2], gr[3], gr[4], gr[5], gr[6], gr[7], gr[8], gr[31]);
-        printf("gr = %p heap = %p stack = %p\n", gr, heap, stack);
-        for (i = 0; i < 10; i++)
-          printf("gr[1][%d] = %x\n",i,((int*)gr[1])[i]);
-        printf("b1[pc] = %d b2[pc] = %d b3[pc] = %d\n", b1[pc], b2[pc], b3[pc]);
-        printf("ins = %d  pc = %d\n", b0[pc], pc);
-        printf("-----------------------------------------------------------------\n");
-        fflush(stdout);
+        // printf("r1 = %x r2 = %x r3 = %x r4 = %x\nr5 = %x r6 = %x r7 = %x r8 = %x r31 = %x\n", gr[1], gr[2], gr[3], gr[4], gr[5], gr[6], gr[7], gr[8], gr[31]);
+        // printf("gr = %p heap = %p stack = %p\n", gr, heap, stack);
+        // // for (i = 0; i < 10; i++)
+        // //   printf("gr[1][%d] = %x\n",i,((int*)gr[1])[i]);
+        // printf("b1[pc] = %d b2[pc] = %d b3[pc] = %d\n", b1[pc], b2[pc], b3[pc]);
+        // printf("ins = %d  pc = %d\n", b0[pc], pc);
+        // printf("-----------------------------------------------------------------\n");
+        // fflush(stdout);
         switch (b0[pc]) {
 
         case 1:
@@ -735,7 +736,7 @@ int main(int argc, char* argv[]) {
 
         case 17:
         // printf("%s\n%d\n", a1[pc], label_to_hash(a1[pc]));
-        pc = labels[label_to_hash(a1[pc]) - 13];
+        pc = labels[label_to_hash(a1[pc])-13];
         break;
 
         case 18:
@@ -745,15 +746,15 @@ int main(int argc, char* argv[]) {
 
         case 19:
         if (gr[b1[pc]] == gr[b2[pc]])
-            pc = labels[label_to_hash(a3[pc]) - 13];
+            pc = labels[label_to_hash(a3[pc])-13];
         else
             pc += 1;
         break;
 
         case 20:
         if (gr[b1[pc]] != gr[b2[pc]]) {
-          // printf("%s\n%d\n", a3[pc], label_to_hash(a3[pc]));
-            pc = labels[label_to_hash(a3[pc]) - 13];
+          // printf("%s\n%d\n%d\n", a3[pc], labels[label_to_hash(a3[pc])-13], labels[label_to_hash("@label_1693")]);
+            pc = labels[label_to_hash(a3[pc])-13];
           }
         else
             pc += 1;
@@ -762,6 +763,7 @@ int main(int argc, char* argv[]) {
         case 21:
         pc = lr;
         if (lr == -1) {
+              printf("%d\n", k);
           return 0;
         }
         break;
@@ -788,7 +790,7 @@ int main(int argc, char* argv[]) {
         break;
 
         case 26:
-        gr[b1[pc]] = labels[label_to_hash(a2[pc]) - 13];
+        gr[b1[pc]] = labels[label_to_hash(a2[pc])-13];
         pc += 1;
         break;
 
@@ -809,7 +811,8 @@ int main(int argc, char* argv[]) {
 
         case 30:
         lr = pc + 1;
-        pc = labels[label_to_hash(a2[pc]) - 13];
+        // printf("%s %s %d\n", a1[pc], a2[pc], labels[label_to_hash(a1[pc])-13]);
+        pc = labels[label_to_hash(a1[pc])-13];
         break;
 
         case 31:
@@ -893,6 +896,7 @@ int main(int argc, char* argv[]) {
 
     }
         if (pc == -1) {
+    printf("%d\n", k);
            return 0;
            break;
          }
@@ -906,4 +910,5 @@ int main(int argc, char* argv[]) {
         //     break;
         // }
     }
+    printf("%d\n", k);
 }

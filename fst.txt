@@ -1,0 +1,7 @@
+main:
+  mov r2, r1
+  sw  r2,r2,$0
+  sw r2,r2,$4
+  fst f0, r2, $0
+  li r6, $-1
+  jr r6

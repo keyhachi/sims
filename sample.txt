@@ -1,3 +1,1 @@
-main:
-mov r1, global_heap
-ret
+jal fless
