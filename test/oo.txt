@@ -1,0 +1,4 @@
+line 4 error! the intstruction 
+	itof f1,r5
+ 
+is different from [itof] of ISA.

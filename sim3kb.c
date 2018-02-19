@@ -35,6 +35,9 @@ int t0, t1, ts0, ts1;
 int g;
 unsigned int tmp, tmp2;
 int insnum = 0;
+unsigned int buf = 0;
+int buf_point = 0;
+
 
 // allinsから指定のlabel探索
 
@@ -317,18 +320,18 @@ else if (strcmp(a0p, "jal") == 0) {
   //   b0[pc] = 40;
   //   return 0;
   // }
-  else if (strcmp(a1p, "print_char") == 0) {
-    b0[pc] = 41;
-    return 0;
-  }
-  else if (strcmp(a1p, "read_int") == 0) {
-    b0[pc] = 50;
-    return 0;
-  }
-  else if (strcmp(a1p, "read_float") == 0) {
-    b0[pc] = 51;
-    return 0;
-  }
+  // else if (strcmp(a1p, "print_char") == 0) {
+  //   b0[pc] = 41;
+  //   return 0;
+  // }
+  // else if (strcmp(a1p, "read_int") == 0) {
+  //   b0[pc] = 50;
+  //   return 0;
+  // }
+  // else if (strcmp(a1p, "read_float") == 0) {
+  //   b0[pc] = 51;
+  //   return 0;
+  // }
   // else if (a1p[0] == 'f' && a1p[1] == 'l' && a1p[2] == 'e') {
   //   b0[pc] = 42;
   //   return 0;
@@ -463,6 +466,16 @@ else if (strcmp(a0p, "fdiv") == 0) {
     return 0;
   }
 }
+else if (strcmp(a0p, "fmov") == 0) {
+  if (a1p[0] != 'f' || a2p[0] != 'f')
+    return -1;
+  else {
+    b0[pc] = 59;
+    b1[pc] = atoi(&a1p[1]);
+    b2[pc] = atoi(&a2p[1]);
+    return 0;
+  }
+}
 else if (strcmp(a0p, "fmovi") == 0) {
   if (a1p[0] != 'f' || a2p[0] != '$')
     return -1;
@@ -546,6 +559,21 @@ else if (strcmp(a0p, "bff") == 0) {
 }
 else if (strcmp(a0p, "hlt") == 0) {
   b0[pc] = 52;
+  return 0;
+}
+else if (strcmp(a0p, "ini") == 0) {
+  b0[pc] = 56;
+  b1[pc] = atoi(&a1p[1]);
+  return 0;
+}
+else if (strcmp(a0p, "inf") == 0) {
+  b0[pc] = 57;
+  b1[pc] = atoi(&a1p[1]);
+  return 0;
+}
+else if (strcmp(a0p, "out") == 0) {
+  b0[pc] = 58;
+  b1[pc] = atoi(&a1p[1]);
   return 0;
 }
   else if (a0p[0] == ';') {
@@ -721,6 +749,7 @@ int main(int argc, char* argv[]) {
             return 0;
         }
     }
+        // pc = 0;
         pc = labels[label_to_hash(start)];
         // printf("%s", allins[pc]);
         // printf("%d\n", pc);
@@ -732,11 +761,12 @@ int main(int argc, char* argv[]) {
     while(1) {
         //実行
       //   if (1) {
-      //   printf("r1 = %x r2 = %x r3 = %x r4 = %x\nr5 = %x r6 = %x r7 = %x r8 = %x r31 = %x\n", gr[1], gr[2], gr[3], gr[4], gr[5], gr[6], gr[7], gr[8], gr[31]);
+      //   printf("\n\n");
+      //   printf("r1 = %x r2 = %x r3 = %x r4 = %x\nr5 = %x r6 = %x r7 = %x r8 = %x r9 = %x r10 = %x r31 = %x\n", gr[1], gr[2], gr[3], gr[4], gr[5], gr[6], gr[7], gr[8], gr[9], gr[10], gr[31]);
       //   printf("f0 = %f f1 = %f f2 = %f f3 = %f f4 = %f\n", fr[0], fr[1], fr[2], fr[3], fr[4]);
       //   printf("gr = %p heap = %p stack = %p\n", gr, heap, stack);
-      //   for (i = 0; i < 10; i++)
-      //     printf("gr[1][%d] = %x %f\n",i,((int*)gr[1])[i],((float*)gr[1])[i]);
+      //   // for (i = 0; i < 10; i++)
+      //   //   printf("gr[1][%d] = %x %f\n",i,((int*)gr[1])[i],((float*)gr[1])[i]);
       //   printf("b1[pc] = %d b2[pc] = %d b3[pc] = %d\n", b1[pc], b2[pc], b3[pc]);
       //   printf("ins = %d  pc = %d\n", b0[pc], pc);
       //   printf("-----------------------------------------------------------------\n");
@@ -802,7 +832,7 @@ int main(int argc, char* argv[]) {
         case 12:
         tmp = (unsigned int)gr[b2[pc]];
         tmp2 = tmp << b3[pc];
-        gr[b1[pc]] = (int)tmp2;
+        ((unsigned int*)gr)[b1[pc]] = tmp2;
         pc += 1;
         break;
 
@@ -914,11 +944,12 @@ int main(int argc, char* argv[]) {
 
         case 31:
         fr[b1[pc]] = (float)((int*)fr)[b2[pc]];
+          printf("fr[%d] = %d\n", b1[pc], ((int*)fr)[b1[pc]]);
         pc += 1;
         break;
 
         case 32:
-        gr[b1[pc]] = (int)((float*)gr)[b2[pc]];
+        ((int*)fr)[b1[pc]] = fr[b2[pc]];
         pc += 1;
         break;
 
@@ -952,7 +983,9 @@ int main(int argc, char* argv[]) {
         break;
 
         case 38:
+        // printf("%f\n%f\n%f\n", fr[b1[pc]], fr[b2[pc]], fr[b3[pc]]);
         fr[b1[pc]] = fr[b2[pc]] / fr[b3[pc]];
+        // printf("%f\n%f\n%f\n", fr[b1[pc]], fr[b2[pc]], fr[b3[pc]]);
         pc += 1;
         break;
 
@@ -1055,12 +1088,65 @@ int main(int argc, char* argv[]) {
 
         case 54:
         fr[b1[pc]] = ((float*)gr)[b2[pc]];
+        pc += 1;
         break;
 
         case 55:
         gr[b1[pc]] = ((int*)fr)[b2[pc]];
+        pc += 1;
         break;
 
+        case 56:
+        if (buf_point == 0) {
+          scanf("%d", &buf);
+          gr[b1[pc]] = buf % 0x100;
+          buf_point = 1;
+        }
+        else if (buf_point == 1) {
+          gr[b1[pc]] = (buf % 0x10000 - buf % 0x100) / 0x100;
+          buf_point = 2;
+        }
+        else if (buf_point == 2) {
+          gr[b1[pc]] = (buf % 0x1000000 - buf % 0x10000) / 0x10000;
+          buf_point = 3;
+        }
+        else if (buf_point == 3) {
+          gr[b1[pc]] = (buf - buf % 0x1000000) / 0x1000000;
+          buf_point = 0;
+        }
+        pc += 1;
+        break;
+
+        case 57:
+        if (buf_point == 0) {
+          scanf("%f", (float*)&buf);
+          gr[b1[pc]] = buf % 0x100;
+          buf_point = 1;
+        }
+        else if (buf_point == 1) {
+          gr[b1[pc]] = (buf % 0x10000 - buf % 0x100) / 0x100;
+          buf_point = 2;
+        }
+        else if (buf_point == 2) {
+          gr[b1[pc]] = (buf % 0x1000000 - buf % 0x10000) / 0x10000;
+          buf_point = 3;
+        }
+        else if (buf_point == 3) {
+          gr[b1[pc]] = (buf - buf % 0x1000000) / 0x1000000;
+          buf_point = 0;
+        }
+        pc += 1;
+        break;
+
+        case 58:
+        printf("%c", gr[b1[pc]]);
+        pc += 1;
+        break;
+
+        case 59:
+        fr[b1[pc]] = fr[b2[pc]];
+        pc += 1;
+        break;
 
     }
         if (pc == -1) {

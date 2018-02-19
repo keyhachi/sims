@@ -35,6 +35,8 @@ int t0, t1, ts0, ts1;
 int g;
 unsigned int tmp, tmp2;
 int insnum = 0;
+int bufi[4];
+float buff[4];
 
 // allinsから指定のlabel探索
 
@@ -528,6 +530,16 @@ else if (strcmp(a0p, "hlt") == 0) {
   b0[pc] = 52;
   return 0;
 }
+else if (strcmp(a0p, "ini") == 0) {
+  b0[pc] = 56;
+  b1[pc] = atoi(&a1p[1]);
+  return 0;
+}
+else if (strcmp(a0p, "inf") == 0) {
+  b0[pc] = 57;
+  b1[pc] = atoi(&a1p[1]);
+  return 0;
+}
   else if (a0p[0] == ';') {
     b0[pc] = 22;
     return 0;
@@ -555,6 +567,11 @@ int main(int argc, char* argv[]) {
         gr[i] = 0;
     for (i = 0; i < 32; i++)
         fr[i] = 0.0;
+
+    for (i = 0; i < 4; i++) {
+      bufi[i] = 0xffffffff;
+      buff[i] = 0xffffffff;
+    }
 
 
     gr[1] = (int)(stack + sizeof(stack)/4 - 4);
@@ -1031,6 +1048,35 @@ int main(int argc, char* argv[]) {
 	      pc += 1;
         break;
 
+        case 56:
+        for (i = 0; i < 4; i++) {
+          if (bufi[i] == 0xffffffff) {
+            scanf("%d", bufi[i]);
+            break;
+          }
+        }
+        if (i == 4) {
+          gr[b1[pc]] = bufi[0] * 0x1000000 + bufi[1] * 0x10000 + bufi[2] * 0x100 + bufi[3];
+          for (j = 0; j < 4; j++)
+            bufi[j] = 0xffffffff;
+        }
+        pc += 1;
+        break;
+
+        case 57:
+        for (i = 0; i < 4; i++) {
+          if (buff[i] == 0xffffffff) {
+            scanf("%d", buff[i]);
+            break;
+          }
+        }
+        if (i == 4) {
+          gr[b1[pc]] = buff[0] * 0x1000000 + buff[1] * 0x10000 + buff[2] * 0x100 + buff[3];
+          for (j = 0; j < 4; j++)
+            buff[j] = 0xffffffff;
+        }
+        pc += 1;
+        break;
 
     }
         if (pc == -1) {

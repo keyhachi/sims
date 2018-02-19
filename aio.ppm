@@ -1,0 +1,4 @@
+line 59 error! the intstruction 
+	mov f10,f10
+ 
+is different from [mov] of ISA.

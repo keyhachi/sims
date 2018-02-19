@@ -1,4 +1,0 @@
-line 49 error! the intstruction 
-	add f13,r5,r6
- 
-is different from [add] of ISA.
