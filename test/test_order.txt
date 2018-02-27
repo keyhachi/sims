@@ -12,6 +12,7 @@ global_array_rw.ml
 make_dest_tuple.ml
 closure_buggy.ml
 ftoi_itof.ml
+floor_check.ml
 
 
 plot_trigon.ml plot_trigon_i.txt

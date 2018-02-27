@@ -1,0 +1,4 @@
+line 2001 error! the intstruction 
+	flt r5,r6
+ 
+is different from [flt] of ISA.
