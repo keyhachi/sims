@@ -770,21 +770,21 @@ int main(int argc, char* argv[]) {
 
     while(1) {
         // fr[5] = -2.49999;
-        fr[5] = -10.05 + (float)k / 20;
-        //実行
-
-        if (flag == 1) {
-        printf("\n\n");
-        printf("r1 = %x r2 = %x r3 = %x r4 = %x\nr5 = %x r6 = %x r7 = %x r8 = %x r9 = %x r10 = %x r31 = %x\n", gr[1], gr[2], gr[3], gr[4], gr[5], gr[6], gr[7], gr[8], gr[9], gr[10], gr[31]);
-        printf("f0 = %f f1 = %f f2 = %f f3 = %f f4 = %f\n", fr[0], fr[1], fr[2], fr[3], fr[4]);
-        printf("gr = %p heap = %p stack = %p\n", gr, heap, stack);
-        // for (i = 0; i < 10; i++)
-        //   printf("gr[1][%d] = %x %f\n",i,((int*)gr[1])[i],((float*)gr[1])[i]);
-        printf("b1[pc] = %d b2[pc] = %d b3[pc] = %d\n", b1[pc], b2[pc], b3[pc]);
-        printf("ins = %d  pc = %d\n", b0[pc], pc);
-        printf("-----------------------------------------------------------------\n");
-        fflush(stdout);
-       }
+      //   fr[5] = -10.05 + (float)k / 20;
+      //   //実行
+       //
+      //   if (flag == 1) {
+      //   printf("\n\n");
+      //   printf("r1 = %x r2 = %x r3 = %x r4 = %x\nr5 = %x r6 = %x r7 = %x r8 = %x r9 = %x r10 = %x r31 = %x\n", gr[1], gr[2], gr[3], gr[4], gr[5], gr[6], gr[7], gr[8], gr[9], gr[10], gr[31]);
+      //   printf("f0 = %f f1 = %f f2 = %f f3 = %f f4 = %f\n", fr[0], fr[1], fr[2], fr[3], fr[4]);
+      //   printf("gr = %p heap = %p stack = %p\n", gr, heap, stack);
+      //   // for (i = 0; i < 10; i++)
+      //   //   printf("gr[1][%d] = %x %f\n",i,((int*)gr[1])[i],((float*)gr[1])[i]);
+      //   printf("b1[pc] = %d b2[pc] = %d b3[pc] = %d\n", b1[pc], b2[pc], b3[pc]);
+      //   printf("ins = %d  pc = %d\n", b0[pc], pc);
+      //   printf("-----------------------------------------------------------------\n");
+      //   fflush(stdout);
+      //  }
 
         switch (b0[pc]) {
 
@@ -990,7 +990,7 @@ int main(int argc, char* argv[]) {
         else
           ((int*)fr)[b1[pc]] = 0.0;
         // ((int*)fr)[b1[pc]] = fr[b2[pc]];
-        printf("(float)fr[%d] = %f  (int)fr[%d] = %d  fr[%d] = %f\n", b1[pc], fr[b1[pc]], b1[pc], ((int*)fr)[b1[pc]], b2[pc], fr[b2[pc]]);
+        // printf("(float)fr[%d] = %f  (int)fr[%d] = %d  fr[%d] = %f\n", b1[pc], fr[b1[pc]], b1[pc], ((int*)fr)[b1[pc]], b2[pc], fr[b2[pc]]);
         // ((int*)fr)[b1[pc]] = fr[b2[pc]];
         pc += 1;
         break;
@@ -1135,7 +1135,6 @@ int main(int argc, char* argv[]) {
 
         case 55:
         gr[b1[pc]] = ((int*)fr)[b2[pc]];
-        printf("gr[%d] = %d  fr[%d] = %d\n\n", b1[pc], gr[b1[pc]], b2[pc], ((int*)fr)[b2[pc]]);
         pc += 1;
         break;
 
