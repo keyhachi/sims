@@ -501,8 +501,8 @@ int main(int argc, char* argv[]) {
       //}
 
 
-        // printf("%s", order);
-        // printf("%s\n", a0);
+        // printf("%s", allins[pc + 2]);
+        // printf("a0 = %s ", a0[pc]);
         // printf("%d %d\n", i, j);
 
         // parse to a1 a1は5bit
@@ -569,7 +569,7 @@ int main(int argc, char* argv[]) {
         }
         i = 0;
 
-        // printf("a5 = %s\n", a5[pc]);
+        // printf("a5 = %s\n\n", a5[pc]);
     }
 
         //parse終了

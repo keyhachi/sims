@@ -4,8 +4,9 @@
 #include <sys/time.h>
 #include <sys/mman.h>
 #include <math.h>
+#include <unistd.h>
 
-
+char* optarg_cp;
 int* gr;
 int lr;
 float* fr;
@@ -530,14 +531,14 @@ else if (strcmp(a0p, "fsqrt") == 0) {
   }
 }
 else if (strcmp(a0p, "flt") == 0) {
-  // if (a1p[0] != 'f' || a2p[0] != 'f')
-  //   return -1;
-  // else {
+  if (a1p[0] != 'f' || a2p[0] != 'f')
+    return -1;
+  else {
     b0[pc] = 46;
     b1[pc] = atoi(&a1p[1]);
     b2[pc] = atoi(&a2p[1]);
     return 0;
-  // }
+   }
 }
 else if (strcmp(a0p, "feq") == 0) {
   if (a1p[0] != 'f' || a2p[0] != 'f')
@@ -752,12 +753,31 @@ int main(int argc, char* argv[]) {
         // pc = 0;
         pc = labels[label_to_hash(start)];
         int c = 0;
-        int flag = 0;
-        while(( c = getopt(argc, argv, "r")) != -1){
+        int r_flag = 0;
+        int n_flag = 0;
+        int a_flag = 0;
+        int b_flag = 0;
+        while(( c = getopt(argc, argv, "rn:a:b:")) != -1){
           switch (c){
             case 'r':
-              printf("aaaaaaaa\n");
-              flag = 1;
+              // optarg_cp = malloc(strlen(optarg) + 1);
+              // strcpy(optarg_cp, optarg);
+              r_flag = 1;
+              break;
+            case 'n':
+              optarg_cp = malloc(strlen(optarg) + 1);
+              strcpy(optarg_cp, optarg);
+              n_flag = 1;
+              break;
+            case 'a':
+              optarg_cp = malloc(strlen(optarg) + 1);
+              strcpy(optarg_cp, optarg);
+              a_flag = 1;
+              break;
+            case 'b':
+              optarg_cp = malloc(strlen(optarg) + 1);
+              strcpy(optarg_cp, optarg);
+              b_flag = 1;
               break;
             }
           }
@@ -770,20 +790,20 @@ int main(int argc, char* argv[]) {
 
     while(1) {
         // fr[5] = -2.49999;
-      //   fr[5] = -10.05 + (float)k / 20;
+          // fr[5] = -10.05 + (float)k / 20;
       //   //実行
        //
-      //   if (flag == 1) {
-      //   printf("\n\n");
-      //   printf("r1 = %x r2 = %x r3 = %x r4 = %x\nr5 = %x r6 = %x r7 = %x r8 = %x r9 = %x r10 = %x r31 = %x\n", gr[1], gr[2], gr[3], gr[4], gr[5], gr[6], gr[7], gr[8], gr[9], gr[10], gr[31]);
-      //   printf("f0 = %f f1 = %f f2 = %f f3 = %f f4 = %f\n", fr[0], fr[1], fr[2], fr[3], fr[4]);
-      //   printf("gr = %p heap = %p stack = %p\n", gr, heap, stack);
-      //   // for (i = 0; i < 10; i++)
-      //   //   printf("gr[1][%d] = %x %f\n",i,((int*)gr[1])[i],((float*)gr[1])[i]);
-      //   printf("b1[pc] = %d b2[pc] = %d b3[pc] = %d\n", b1[pc], b2[pc], b3[pc]);
-      //   printf("ins = %d  pc = %d\n", b0[pc], pc);
-      //   printf("-----------------------------------------------------------------\n");
-      //   fflush(stdout);
+      //  if (b0[pc] == 16) {
+      //    printf("\n\n");
+      //    printf("r1 = %x r2 = %x r3 = %x r4 = %x\nr5 = %x r6 = %x r7 = %x r8 = %x r9 = %x r10 = %x r31 = %x\n", gr[1], gr[2], gr[3], gr[4], gr[5], gr[6], gr[7], gr[8], gr[9], gr[10], gr[31]);
+      //    printf("f0 = %f f1 = %f f2 = %f f3 = %f f4 = %f\n", fr[0], fr[1], fr[2], fr[3], fr[4]);
+      //    printf("gr = %p heap = %p stack = %p\n", gr, heap, stack);
+      //    // for (i = 0; i < 10; i++)
+      //    //   printf("gr[1][%d] = %x %f\n",i,((int*)gr[1])[i],((float*)gr[1])[i]);
+      //    printf("b1[pc] = %d b2[pc] = %d b3[pc] = %d\n", b1[pc], b2[pc], b3[pc]);
+      //    printf("ins = %s  pc = %d\n", a0[pc], pc);
+      //    printf("-----------------------------------------------------------------\n");
+      //    fflush(stdout);
       //  }
 
         switch (b0[pc]) {
@@ -904,7 +924,19 @@ int main(int argc, char* argv[]) {
         case 21:
         pc = lr;
         if (lr == -1) {
-              printf("%d\n", k);
+          if (r_flag == 1) {
+            printf("\n\n");
+            printf("r1 = %x r2 = %x r3 = %x r4 = %x\nr5 = %x r6 = %x r7 = %x r8 = %x r9 = %x r10 = %x r31 = %x\n", gr[1], gr[2], gr[3], gr[4], gr[5], gr[6], gr[7], gr[8], gr[9], gr[10], gr[31]);
+            printf("f0 = %f f1 = %f f2 = %f f3 = %f f4 = %f\n", fr[0], fr[1], fr[2], fr[3], fr[4]);
+            printf("gr = %p heap = %p stack = %p\n", gr, heap, stack);
+            // for (i = 0; i < 10; i++)
+            //   printf("gr[1][%d] = %x %f\n",i,((int*)gr[1])[i],((float*)gr[1])[i]);
+            printf("b1[pc] = %d b2[pc] = %d b3[pc] = %d\n", b1[pc], b2[pc], b3[pc]);
+            printf("ins = %s  pc = %d\n", a0[pc], pc);
+            printf("-----------------------------------------------------------------\n");
+            fflush(stdout);
+          }
+              // printf("%d\n", k);
           return 0;
         }
         break;
@@ -1191,7 +1223,71 @@ int main(int argc, char* argv[]) {
         break;
 
     }
+
+      // if (flag == 1) {
+      //   printf("\n\n");
+      //   printf("r1 = %x r2 = %x r3 = %x r4 = %x\nr5 = %x r6 = %x r7 = %x r8 = %x r9 = %x r10 = %x r31 = %x\n", gr[1], gr[2], gr[3], gr[4], gr[5], gr[6], gr[7], gr[8], gr[9], gr[10], gr[31]);
+      //   printf("f0 = %f f1 = %f f2 = %f f3 = %f f4 = %f\n", fr[0], fr[1], fr[2], fr[3], fr[4]);
+      //   printf("gr = %p heap = %p stack = %p\n", gr, heap, stack);
+      //   // for (i = 0; i < 10; i++)
+      //   //   printf("gr[1][%d] = %x %f\n",i,((int*)gr[1])[i],((float*)gr[1])[i]);
+      //   printf("b1[pc] = %d b2[pc] = %d b3[pc] = %d\n", b1[pc], b2[pc], b3[pc]);
+      //   printf("ins = %s  pc = %d\n", a0[pc], pc);
+      //   printf("-----------------------------------------------------------------\n");
+      //   fflush(stdout);
+      // }
+
+      if (b_flag == 1 && atoi(&optarg_cp[0]) == pc) {
+        printf("\n\n");
+        printf("r1 = %x r2 = %x r3 = %x r4 = %x\nr5 = %x r6 = %x r7 = %x r8 = %x r9 = %x r10 = %x r31 = %x\n", gr[1], gr[2], gr[3], gr[4], gr[5], gr[6], gr[7], gr[8], gr[9], gr[10], gr[31]);
+        printf("f0 = %f f1 = %f f2 = %f f3 = %f f4 = %f\n", fr[0], fr[1], fr[2], fr[3], fr[4]);
+        printf("gr = %p heap = %p stack = %p\n", gr, heap, stack);
+        // for (i = 0; i < 10; i++)
+        //   printf("gr[1][%d] = %x %f\n",i,((int*)gr[1])[i],((float*)gr[1])[i]);
+        printf("b1[pc] = %d b2[pc] = %d b3[pc] = %d\n", b1[pc], b2[pc], b3[pc]);
+        printf("ins = %s  pc = %d\n", a0[pc], pc);
+        printf("-----------------------------------------------------------------\n");
+        fflush(stdout);
+       }
+
+      if (n_flag == 1 && atoi(&optarg_cp[0]) == pc) {
+      printf("\n\n");
+      printf("r1 = %x r2 = %x r3 = %x r4 = %x\nr5 = %x r6 = %x r7 = %x r8 = %x r9 = %x r10 = %x r31 = %x\n", gr[1], gr[2], gr[3], gr[4], gr[5], gr[6], gr[7], gr[8], gr[9], gr[10], gr[31]);
+      printf("f0 = %f f1 = %f f2 = %f f3 = %f f4 = %f\n", fr[0], fr[1], fr[2], fr[3], fr[4]);
+      printf("gr = %p heap = %p stack = %p\n", gr, heap, stack);
+      // for (i = 0; i < 10; i++)
+      //   printf("gr[1][%d] = %x %f\n",i,((int*)gr[1])[i],((float*)gr[1])[i]);
+      printf("b1[pc] = %d b2[pc] = %d b3[pc] = %d\n", b1[pc], b2[pc], b3[pc]);
+      printf("ins = %s  pc = %d\n", a0[pc], pc);
+      printf("-----------------------------------------------------------------\n");
+      fflush(stdout);
+     }
+
+     if (a_flag == 1 && strcmp(optarg_cp, a0[pc]) == 0) {
+     printf("\n\n");
+     printf("r1 = %x r2 = %x r3 = %x r4 = %x\nr5 = %x r6 = %x r7 = %x r8 = %x r9 = %x r10 = %x r31 = %x\n", gr[1], gr[2], gr[3], gr[4], gr[5], gr[6], gr[7], gr[8], gr[9], gr[10], gr[31]);
+     printf("f0 = %f f1 = %f f2 = %f f3 = %f f4 = %f\n", fr[0], fr[1], fr[2], fr[3], fr[4]);
+     printf("gr = %p heap = %p stack = %p\n", gr, heap, stack);
+     // for (i = 0; i < 10; i++)
+     //   printf("gr[1][%d] = %x %f\n",i,((int*)gr[1])[i],((float*)gr[1])[i]);
+     printf("b1[pc] = %d b2[pc] = %d b3[pc] = %d\n", b1[pc], b2[pc], b3[pc]);
+     printf("ins = %s  pc = %d\n", a0[pc], pc);
+     printf("-----------------------------------------------------------------\n");
+     fflush(stdout);
+    }
         if (pc == -1) {
+          if (r_flag == 1) {
+            printf("\n\n");
+            printf("r1 = %x r2 = %x r3 = %x r4 = %x\nr5 = %x r6 = %x r7 = %x r8 = %x r9 = %x r10 = %x r31 = %x\n", gr[1], gr[2], gr[3], gr[4], gr[5], gr[6], gr[7], gr[8], gr[9], gr[10], gr[31]);
+            printf("f0 = %f f1 = %f f2 = %f f3 = %f f4 = %f\n", fr[0], fr[1], fr[2], fr[3], fr[4]);
+            printf("gr = %p heap = %p stack = %p\n", gr, heap, stack);
+            // for (i = 0; i < 10; i++)
+            //   printf("gr[1][%d] = %x %f\n",i,((int*)gr[1])[i],((float*)gr[1])[i]);
+            printf("b1[pc] = %d b2[pc] = %d b3[pc] = %d\n", b1[pc], b2[pc], b3[pc]);
+            printf("ins = %s  pc = %d\n", a0[pc], pc);
+            printf("-----------------------------------------------------------------\n");
+            fflush(stdout);
+          }
     // printf("%d\n", k);
            return 0;
            break;
